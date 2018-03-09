@@ -45,29 +45,32 @@ var helpers = require( 'wink-helpers' );
  * @return {object} containing `compute`, `value`, `result`, and `reset` functions.
  * @example
  * var ft = freqTable();
- * ft.build( 'Tea' );
- * ft.build( 'Tea' );
- * ft.build( 'Tea' );
- * ft.build( 'Pepsi' );
- * ft.build( 'Pepsi' );
- * ft.build( 'Gin' );
- * ft.build( 'Coke' );
- * ft.build( 'Coke' );
+ *ft.build( 'Tea' );
+ *ft.build( 'Tea' );
+ *ft.build( 'Tea' );
+ *ft.build( 'Tea' );
+ *ft.build( 'Tea' );
+ *ft.build( 'Tea' );
+ *ft.build( 'Tea' );
+ *ft.build( 'Pepsi' );
+ *ft.build( 'Pepsi' );
+ *ft.build( 'Gin' );
+ *ft.build( 'Coke' );
  * ft.value();
- * // returns { Tea: 3, Pepsi: 2, Gin: 1, Coke: 2 }
+ * // returns { Tea: 7, Pepsi: 2, Gin: 1, Coke: 2 }
  * ft.result();
  * // returns {
  * //  table: [
- * //   { category: 'Tea', observed: 3, percentage: 37.5, expected: 2 },
- * //   { category: 'Pepsi', observed: 2, percentage: 25, expected: 2 },
- * //   { category: 'Coke', observed: 2, percentage: 25, expected: 2 },
- * //   { category: 'Gin', observed: 1, percentage: 12.5, expected: 2 }
+ * //   { category: 'Tea', observed: 7, percentage: 58.333333333333336, expected: 3 },
+ * //   { category: 'Pepsi', observed: 2, percentage: 16.666666666666664, expected: 3 },
+ * //   { category: 'Coke', observed: 2, percentage: 16.666666666666664, expected: 3 },
+ * //   { category: 'Gin', observed: 1, percentage:  8.333333333333332, expected: 3 }
  * //  ],
  * //  size: 4,
- * //  sum: 8,
- * //  x2: 1,
- * //  df: 3,
- * //  entropy: 1.9056390622295665
+ * //  sum: 12,
+ * //  pvalmin: 0.01,
+ * //  pvalmax: 0.1,
+ * //  entropy: 1.6140054628542204
  * // }
  */
 var freqTable = function () {
