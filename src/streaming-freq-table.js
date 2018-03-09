@@ -68,7 +68,9 @@ var helpers = require( 'wink-helpers' );
  * //  ],
  * //  size: 4,
  * //  sum: 12,
- * //  pvalmin: 0.01,
+ * //  x2: 7.333,
+ * //  df: 3,
+ * //  pvalmin: 0.05,
  * //  pvalmax: 0.1,
  * //  entropy: 1.6140054628542204
  * // }
@@ -129,6 +131,7 @@ var freqTable = function () {
     for ( var j = 0; j < 5; j += 1) {
       if (pvaltable[ imax - 1][ j ] > x2) {
         pvalmin = pvaltable[ 0 ][ j ];
+        break;
       } else {
         pvalmax = pvaltable[ 0 ][ j ];
       }
