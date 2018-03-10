@@ -35,7 +35,7 @@
  * @param {number} df — degrees of freedom;
  * @param {number} sl — significance level (should be between 0 and 1);
 
- * @returns {object} `pval` containing 'dfused','slused'
+ * @returns {object} `pval` containing 'dfused','slused','significance'
  * @example
  */
 var pvalue = function ( x2, df, sl ) {
@@ -48,6 +48,7 @@ var pvalue = function ( x2, df, sl ) {
   if ( ( typeof sl !== 'number' ) || ( sl <= 0 ) || ( sl >= 1 ) ) {
     throw Error( 'stats-pvalue: sl should be a number between 0 & 1, instead found: ' + JSON.stringify( sl ) );
   }
+  var index;
   var pval = Object.create(null);
   var pvaltable = [
     [ 0.2 , 0.1 , 0.075 , 0.05 , 0.025 , 0.010 , 0.005 , 0.001 , 0.0005 ],
@@ -90,18 +91,20 @@ var pvalue = function ( x2, df, sl ) {
   if ( df > 30 ) {
     throw String( 'Table does not contain df value greater than 30 so df will default to 30' );
   }
-  for ( var i = 0; i < pvaltable[0].length; i += 1) {
-    if ( ( 1 - sl ) >= pvaltable[ 0 ][ i ] ) {
-      pval.slused = 1 - pvaltable[ 0 ][ i ];
-      if ( ( 1 - sl ) !== pvaltable[ 0 ][ i ] ) {
-        throw String( 'Table does not contain significance level of ', ( 1 - sl ) * 100 , '% so nearest significance level of ', pval.slused * 100 , '% will be used.');
-      }
-      if ( x2 >= pvaltable[ pval.dfused ][ i ]) {
-        pval.significance = ('The data is significant for ', pval.slused * 100 ,'% at ', pval.dfused ,' degrees of freedom');
-      } else {
-        pval.significance = ('The data is insignificant for ', pval.slused * 100 ,'% at ', pval.dfused ,' degrees of freedom and will be significant at chi-squared statistic (x2) of ', pvaltable[ pval.dfused ][ i ] );
+  index = pvaltable[ 0 ].indexof(1 - sl);
+  if ( index == -1 ) {
+    for ( var i = 0; i < pvaltable[ 0 ].length; i += 1) {
+      if ( ( 1 - sl ) < pvaltable[ 0 ][ i ]) {
+        index = i;
       }
     }
+    pval.slused = pvaltable[ 0 ][ index ];
+    throw String( 'Table does not contain significance level of ', ( 1 - sl ) * 100 , '% so nearest significance level of ', pval.slused * 100 , '% will be used.');
+  }
+  if ( x2 >= pvaltable[ pval.dfused ][ index ]) {
+    pval.significance = ('The data is significant for ', pval.slused * 100 ,'% at ', pval.dfused ,' degrees of freedom');
+  } else {
+    pval.significance = ('The data is insignificant for ', pval.slused * 100 ,'% at ', pval.dfused ,' degrees of freedom and will be significant at chi-squared statistic (x2) of ', pvaltable[ pval.dfused ][ index ] );
   }
   return pval;
 }; // pvalue()
