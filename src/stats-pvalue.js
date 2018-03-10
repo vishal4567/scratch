@@ -82,17 +82,20 @@ var pvalue = function ( x2, df, sl ) {
     [ 35.139 , 39.087 , 40.573 , 42.557 , 45.722 , 49.588 , 52.336 , 58.302 , 60.738 ],
     [ 36.250 , 40.256 , 41.762 , 43.773 , 46.979 , 50.892 , 53.672 , 59.704 , 62.164 ],
   ];
-  if (df >= 30) {
+  if (df > 30) {
     pval.dfused = 30;
   } else {
     pval.dfused = df;
   }
   if ( df > 30 ) {
-    throw String('Table does not contain df value greater than 30 so df will default to 30');
+    throw String( 'Table does not contain df value greater than 30 so df will default to 30' );
   }
   for ( var i = 0; i < pvaltable[0].length; i += 1) {
-    if ( ( 1 - sl ) <= pvaltable[ 0 ][ i ] ) {
+    if ( ( 1 - sl ) >= pvaltable[ 0 ][ i ] ) {
       pval.slused = 1 - pvaltable[ 0 ][ i ];
+      if ( ( 1 - sl ) !== pvaltable[ 0 ][ i ] ) {
+        throw String( 'Table does not contain significance level of ', ( 1 - sl ) * 100 , '% so nearest significance level of ', pval.slused * 100 , '% will be used.');
+      }
       if ( x2 >= pvaltable[ pval.dfused ][ i ]) {
         pval.significance = ('The data is significant for ', pval.slused * 100 ,'% at ', pval.dfused ,' degrees of freedom');
       } else {
