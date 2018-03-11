@@ -86,11 +86,9 @@ var pvalue = function ( x2, df, sl ) {
   pval.x2 = x2;
   if (df > 30) {
     pval.dfused = 30;
+    pval.dferror = ( 'Table does not contain df value greater than 30 so df will default to 30' );
   } else {
     pval.dfused = df;
-  }
-  if ( df > 30 ) {
-    pval.dferror = ( 'Table does not contain df value greater than 30 so df will default to 30' );
   }
   index = pvaltable[ 0 ].indexOf(sl);
   if ( index == -1 ) {
@@ -100,8 +98,7 @@ var pvalue = function ( x2, df, sl ) {
         break;
       }
     }
-    pval.slused = pvaltable[ 0 ][ index ];
-    pval.slerror = ( 'Table does not contain significance level of ' + ( ( sl ) * 100 ) + '% so nearest significance level of ' + ( (pval.slused) * 100 ) + '% will be used.');
+    pval.slerror = ( 'Table does not contain significance level of ' + ( ( sl ) * 100 ) + '% so nearest significance level of ' + ( (pvaltable[ 0 ][ index ] ) * 100 ) + '% will be used.');
   }
   pval.slused = pvaltable[ 0 ][ index ];
   if ( x2 >= pvaltable[ pval.dfused ][ index ]) {
